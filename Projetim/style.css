@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    text-align: center;
+  }
+  
+  #player-info {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  #bingo-card {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  #bingo-numbers {
+    text-align: center;
+  }
+  
+  #card-table {
+    margin: 0 auto;
+  }
+  
+  #drawn-numbers {
+    margin-top: 10px;
+  }
+  
+  td {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border: 1px solid #000;
+  }
+  
+  .highlighted {
+    background-color: yellow;
+  }
+  
