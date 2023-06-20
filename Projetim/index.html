@@ -27,18 +27,22 @@
   <input type="text" id="playerName">
   <button onclick="createCard()">Criar Cartela</button>
   <button onclick="startGame()">Jogar</button>
+  <button onclick="resetGame()">Reiniciar</button>
   
+  <div id="playerNameDisplay"></div>
   <table id="card" style="display: none;"></table>
 
   <div id="numbersDrawn"></div>
 
   <script>
     var playerNameInput = document.getElementById('playerName');
+    var playerNameDisplay = document.getElementById('playerNameDisplay');
     var cardTable = document.getElementById('card');
     var numbers = [];
     var currentPlayer = '';
     var drawnNumbers = [];
     var numbersDrawnDiv = document.getElementById('numbersDrawn');
+    var drawSpeed = 500; // Velocidade em milissegundos entre cada sorteio
 
     function createCard() {
       var playerName = playerNameInput.value;
@@ -47,6 +51,9 @@
         return;
       }
       currentPlayer = playerName;
+
+      // Exibir o nome do jogador acima da tabela
+      playerNameDisplay.textContent = 'Jogador: ' + playerName;
 
       // Gerar uma cartela aleatória de 25 números entre 1 e 75
       var cardNumbers = [];
@@ -106,7 +113,18 @@
       }
 
       // Continuar o sorteio
-      setTimeout(drawNumber, 1000); // Sortear o próximo número após 1 segundo
+      setTimeout(drawNumber, drawSpeed); // Sortear o próximo número após o intervalo de tempo especificado
+    }
+
+    function resetGame() {
+      currentPlayer = '';
+      playerNameInput.value = '';
+      playerNameDisplay.textContent = '';
+      cardTable.innerHTML = '';
+      numbers = [];
+      drawnNumbers = [];
+      numbersDrawnDiv.textContent = '';
+      cardTable.style.display = 'none';
     }
   </script>
 </body>
