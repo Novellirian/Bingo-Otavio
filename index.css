@@ -1,0 +1,71 @@
+html {
+    background: linear-gradient(to bottom, #291a1afa, #313030);
+    height: 100%;
+    color: rgba(245, 245, 245, 0.801);
+}
+
+body {
+    padding: 0;
+    
+  }
+  table {
+    border-collapse: collapse;
+    background-color: rgba(211, 211, 211, 0.726);
+    margin: 1vh;
+    margin-top: 10vh;
+  }
+  td {
+    width: 5vh;
+    height: 5vh;
+    text-align: center;
+    border: 1px solid black;
+  }
+  .marked {
+    background-color: rgb(48, 23, 23);
+  }
+  .card-container {
+    font-size: 3vh;
+    margin-top: 5vh;
+  }
+  #cardsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    color: whitesmoke;
+  }
+  #numbersDrawn {
+    margin-top: 5vh;
+    font-size: 4vh;
+    color: white;
+  }
+
+
+  button {
+    padding: 10px 20px;
+    font-size: 2vh;
+    color: #fff;
+    background-color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 1vh;
+  }
+  
+  button:hover {
+    background-color: #222; /* Tom mais escuro ao passar o mouse */
+    transition: ease-in-out 0.3s;
+  }
+  
+  /* Estilização para labels */
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 1vh;
+    font-size: 2vh;
+    color: whitesmoke;
+  }
+  
+  input[type="text"] {
+    padding: 1.5vh;
+    font-size: 2vh;
+    border-radius: 5px;
+  }

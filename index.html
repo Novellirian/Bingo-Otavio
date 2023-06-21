@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bingo</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <h1>Rian's Bingo</h1>
+  
+  <label for="playerName">Nome do Jogador: </label>
+  <input type="text" id="playerName">
+  <button onclick="createCard()">Criar Cartela</button>
+  <button onclick="startGame()">Jogar</button>
+  <button onclick="resetGame()">Reiniciar</button>
+  
+  <div id="cardsContainer"></div>
+  <div id="numbersDrawn"></div>
+
+  <script>
+    var playerNameInput = document.getElementById('playerName');
+    var cardsContainer = document.getElementById('cardsContainer');
+    var numbers = [];
+    var players = [];
+    var drawnNumbers = [];
+    var numbersDrawnDiv = document.getElementById('numbersDrawn');
+    var drawSpeed = 1000; 
+
+    function createCard() {
+      var playerName = playerNameInput.value;
+      if (playerName === '') {
+        alert('Por favor, digite o nome do jogador.');
+        return;
+      }
+
+      // Criar um novo objeto de jogador
+      var player = {
+        name: playerName,
+        cardNumbers: generateCardNumbers(),
+        hasBingo: false
+      };
+
+      // Adicionar o jogador à lista de jogadores
+      players.push(player);
+
+      // Criar a tabela da cartela
+      var cardTable = document.createElement('table');
+      cardTable.classList.add('card');
+      cardTable.style.display = 'none';
+      for (var i = 0; i < 5; i++) {
+        var row = document.createElement('tr');
+        for (var j = 0; j < 5; j++) {
+          var cell = document.createElement('td');
+          var number = player.cardNumbers[i * 5 + j];
+          cell.textContent = number;
+
+          // Verificar em qual coluna o número está e adicionar a classe correspondente
+          if (number >= 1 && number <= 15) {
+            cell.classList.add('column1');
+          } else if (number >= 16 && number <= 30) {
+            cell.classList.add('column2');
+          } else if (number >= 31 && number <= 45) {
+            cell.classList.add('column3');
+          } else if (number >= 46 && number <= 60) {
+            cell.classList.add('column4');
+          } else if (number >= 61 && number <= 75) {
+            cell.classList.add('column5');
+          }
+
+          row.appendChild(cell);
+        }
+        cardTable.appendChild(row);
+      }
+
+      // Criar um contêiner para a cartela e o nome do jogador
+      var cardContainer = document.createElement('div');
+      cardContainer.classList.add('card-container');
+      cardContainer.appendChild(document.createTextNode('Jogador: ' + playerName));
+      cardContainer.appendChild(document.createElement('br'));
+      cardContainer.appendChild(cardTable);
+      
+      cardsContainer.appendChild(cardContainer);
+
+      cardTable.style.display = 'table';
+    }
+
+    function generateCardNumbers() {
+      var cardNumbers = [];
+      while (cardNumbers.length < 25) {
+        var randomNum = Math.ceil(Math.random() * 75);
+        if (!cardNumbers.includes(randomNum)) {
+          cardNumbers.push(randomNum);
+        }
+      }
+      return cardNumbers;
+    }
+
+    function startGame() {
+      if (players.length === 0) {
+        alert('Crie pelo menos uma cartela antes de jogar.');
+        return;
+      }
+
+      // Gerar uma sequência de números aleatórios entre 1 e 75 (ou qualquer outra faixa desejada)
+      numbers = Array.from({length: 75}, (_, index) => index + 1).sort(() => Math.random() - 0.5);
+      drawnNumbers = [];
+
+      // Iniciar o sorteio de números
+      drawNumber();
+    }
+
+    function drawNumber() {
+      if (numbers.length === 0) {
+        var winner = players.find(player => player.hasBingo);
+        if (winner) {
+          alert('B I N G O! ' + winner.name + ' venceu o jogo!');
+        } else {
+          alert('Todos os números foram sorteados. O jogo acabou!');
+        }
+        return;
+      }
+
+      var drawnNumber = numbers.pop();
+      drawnNumbers.push(drawnNumber);
+
+      // Exibir o número sorteado
+      numbersDrawnDiv.textContent += drawnNumber + ', ';
+
+      // Marcar o número nas cartelas se presente
+      for (var i = 0; i < players.length; i++) {
+        var player = players[i];
+        if (player.hasBingo) continue; // Pular jogadores que já têm Bingo
+
+        var cardTable = cardsContainer.getElementsByClassName('card')[i];
+        var cells = cardTable.getElementsByTagName('td');
+        for (var j = 0; j < cells.length; j++) {
+          if (parseInt(cells[j].textContent) === drawnNumber) {
+            cells[j].classList.add('marked');
+
+            // Verificar se o jogador completou a cartela
+            var allMarked = true;
+            for (var k = 0; k < cells.length; k++) {
+              if (!cells[k].classList.contains('marked')) {
+                allMarked = false;
+                break;
+              }
+            }
+
+            if (allMarked) {
+              player.hasBingo = true;
+              alert('B I N G O! ' + player.name + ' venceu o jogo!');
+              return;
+            }
+          }
+        }
+      }
+
+      // Continuar o sorteio
+      setTimeout(drawNumber, drawSpeed); // Sortear o próximo número após o intervalo de tempo especificado
+    }
+
+    function resetGame() {
+      players = [];
+      cardsContainer.innerHTML = '';
+      numbers = [];
+      drawnNumbers = [];
+      numbersDrawnDiv.textContent = '';
+    }
+  </script>
+</body>
+</html>
